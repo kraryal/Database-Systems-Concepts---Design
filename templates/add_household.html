@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Household{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+      <div class="container">
+        <h3>Add New Household</h3>
+          <p>Enter household info</p>
+        <form id="housholdForm" action="/add_household" method="POST">
+          <div class="form-group">
+<!--            <label for="email">Email:</label>-->
+            <input type="email" name="email" class="form-control" id="email" placeholder="Enter email" required>
+          </div>
+          <div class="form-group">
+<!--            <label for="postal">Postal Code:</label>-->
+            <input type="number" name='postal_code' class="form-control" id="postal" placeholder="Enter postal code" required>
+          </div>
+          <div class="form-group">
+            <label for="residence">Select Household Type:</label>
+            <select name="household_type" class="form-control" id="residence" required>
+                <option value=""></option>
+              <option value="townhome">Townhome</option>
+              <option value="house">House</option>
+              <option value="apartment">Apartment</option>
+              <option value="condominium">Condominium</option>
+              <option value="modularhome">Modular Home</option>
+              <option value="tinyhouse">Tiny House</option>
+            </select>
+          </div>
+          <div class="form-group">
+<!--            <label for="squareFootage">Square Footage:</label>-->
+            <input type="number" name="square_footage" class="form-control" id="squareFootage" placeholder="Enter square footage" required>
+          </div>
+          <div class="form-group">
+<!--            <label for="thermostat">Thermostat Heating:</label>-->
+            <div class="input-group">
+              <input type="number" name="heatThermo" class="form-control" id="thermoheat" placeholder="Enter heating settings">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <input name="noHeat" type="checkbox" id="noHeat"> No Heat
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+<!--            <label for="thermostat">Thermostat Cooling:</label>-->
+            <div class="input-group">
+              <input type="number" name="coolThermo"  class="form-control" id="thermocool" placeholder="Enter cooling settings">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <input name="noCool" type="checkbox" id="noCooling"> No Cooling
+                </div>
+              </div>
+            </div>
+          </div>
+          <div  class="form-group">
+            <label for="utilities"> Add Utilities:</label>
+            <select  name="utils" class="form-control" multiple id="utilities">
+              <option name="electric" value="electric">Electric</option>
+              <option name="gas" value="gas">Gas</option>
+              <option name="liquidfuel" value="liquidfuel">Liquid Fuel</option>
+              <option name="steam" value="steam">Steam</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Next</button>
+<!--            <a href="{{ url_for('index')}}" class="btn btn-primary report-button">Cancel</a>-->
+        </form>
+      </div>
+    </div>
+ <a href="{{ url_for('index')}}" class="btn btn-primary report-button">Main Menu</a>
+<script src="{{ url_for('static', filename='js/add_household.js') }}"></script>
+{% endblock %}

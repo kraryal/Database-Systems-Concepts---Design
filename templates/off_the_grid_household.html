@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <div class="container">
+        <h1>Off-the-grid household dashboard</h1>
+        <br>
+        <h5>1. State with the Most Off-the-Grid Households</h2>
+            <table class="table">
+                <tr>
+                    <th>State</th>
+                    <th>Off-the-Grid Households</th>
+                </tr>
+
+                {% for item in data[0]%}
+                <tr>
+                    <td>{{ item[0] }}</td>
+                    <td>{{ item[1] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+
+            <h5>2. Average Battery Storage Capacity per Battery</h2>
+                <table class="table">
+                    <tr>
+                        <th>Average Capacity</th>
+                    </tr>
+                    <tr>
+                        <td>{{ data[1][0][0] }}</td>
+                    </tr>
+                </table>
+                <br>
+                <h5>3. Power Generation Type Distribution</h2>
+                    <table class="table">
+                        <tr>
+                            <th>Generation Type</th>
+                            <th>Percentage</th>
+                        </tr>
+
+                        {% for item in data[3] %}
+                        <tr>
+                            <td>{{ item[0] }}</td>
+                            <td> {{ item[1] }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <br>
+                    <h5>4. Household Type Distribution</h2>
+                        <table class="table">
+                            <tr>
+                                <th>Household Type</th>
+                                <th>Percentage</th>
+                            </tr>
+                            {% for item in data[6] %}
+                            <tr>
+                                <td>{{item[0]}}</td>
+                                <td>{{item[1]}}%</td>
+                            </tr>
+
+                            {% endfor %}
+
+                        </table>
+                        <br>
+                        <h5>5a. Off The Grid Average Water Heater Tank Size</h2>
+                            <table class="table">
+                                <tr>
+                                    <th>Household Type</th>
+                                    <th>Off-the-Grid Average Tank Size</th>
+                                </tr>
+
+                                {% for item in data[5] %}
+                                <tr>
+                                    <td>{{ item[0] }}</td>
+                                    <td>{{ item[1] }}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                            <br>
+
+                            <h5>5b. On the Grid  - Average Water Heater Tank Size</h2>
+                            <table class="table">
+                                <tr>
+                                    <th>Household Type</th>
+                                    <th>On-the-Grid Average Tank Size</th>
+                                </tr>
+
+                                {% for item in data[6] %}
+                                <tr>
+                                    <td>{{ item[0] }}</td>
+                                    <td>{{ item[1] }}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                            <br>
+                            <h5>6. Appliance BTU Values</h2>
+                                <table class="table">
+                                    <tr>
+                                        <th>Appliance Type</th>
+                                        <th>Minimum BTU</th>
+                                        <th>Average BTU</th>
+                                        <th>Maximum BTU</th>
+                                    </tr>
+
+                                    {% for item in data[7] %}
+                                    <tr>
+                                        <td>{{ item[0] }}</td>
+                                        <td>{{ item[1] }}</td>
+                                        <td>{{ item[2] }}</td>
+                                        <td>{{ item[3] }}</td>
+                                    </tr>
+                                    {% endfor %}
+<!--                                    -->
+<!--                                    <tr>-->
+<!--                                        <td>Appliance Type 2</td>-->
+<!--                                        <td>[Minimum BTU]</td>-->
+<!--                                        <td>[Average BTU]</td>-->
+<!--                                        <td>[Maximum BTU]</td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td>Appliance Type 3</td>-->
+<!--                                        <td>[Minimum BTU]</td>-->
+<!--                                        <td>[Average BTU]</td>-->
+<!--                                        <td>[Maximum BTU]</td>-->
+<!--                                    </tr>-->
+                                </table>
+    </div>
+<!--      <a href="{{ url_for('reporting')}}" class="btn btn-primary btn-lg report-button">Back</a>-->
+</div>
+<a href="{{ url_for('reporting')}}" class="btn btn-primary btn-lg report-button">Back</a>
+{% endblock %}

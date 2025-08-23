@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Household{% endblock %}
+
+{% block content %}
+  <div class="container">
+  	<div class="jumbotron">
+     <h3>Reports Menu</h3>
+     <p>Welcome to the reporting menu. Please select a report below for further details</p>
+    <div class="btn-group-vertical">
+      <a href="{{ url_for('top_25_manufacturers') }}" class="btn btn-primary btn-lg report-button">Top 25 popular manufacturers</a>
+      <a href="{{ url_for('search') }}" class="btn btn-primary btn-lg report-button">Manufacturer/model search</a>
+      <a href="{{ url_for('heating_cooling_methods') }}" class="btn btn-primary btn-lg report-button">Heating/cooling method details</a>
+      <a href="{{ url_for('off_the_grid_household')}}" class="btn btn-primary btn-lg report-button">Off The Grid Household</a>
+      <a href="{{ url_for('water_heater_statistics')}}" class="btn btn-primary btn-lg report-button">Water heater statistics by state</a>
+      <a href="{{ url_for('household_average_by_radius')}}" class="btn btn-primary btn-lg report-button">Household averages by radius</a>
+    </div>
+
+  	</div>
+    <a href="{{ url_for('index')}}" class="btn btn-primary btn-lg report-button">Main Menu</a>
+  </div>
+{% endblock %}

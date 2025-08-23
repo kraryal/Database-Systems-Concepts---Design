@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <div class="container">
+        <h1>Water heater statistics by state</h1>
+        <br>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>State</th>
+                    <th>Avg. Tank Size (gallons)</th>
+                    <th>Avg. BTUs</th>
+                    <th>Avg. Temp. Setting (°F)</th>
+                    <th>Temp. Set. Count</th>
+                    <th>No Temp. Set. Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- State Statistics Rows -->
+                {% for item in data %}
+                <tr>
+                    <td><a class="drilldown-link" href="{{ url_for('water_heater_details', state=item[0]) }}">{{ item[0] }}</a></td>
+                    <td>{{ item[1] }}</td>
+                    <td>{{ item[2] }}</td>
+                    <td>{{ item[3] }}</td>
+                    <td>{{ item[3] }}</td>
+                    <td>{{ item[4] }}</td>
+                </tr>
+                {% endfor%}
+                <!-- Add more rows for each state -->
+
+            </tbody>
+            <!-- Heater -->
+
+        </table>
+        <br>
+
+<!--      <a href="{{ url_for('reporting')}}" class="btn btn-primary btn-lg report-button">Back</a>-->
+    </div>
+
+</div>
+<a href="{{ url_for('reporting')}}" class="btn btn-primary btn-lg report-button">Back</a>
+{% endblock %}

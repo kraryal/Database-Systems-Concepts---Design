@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+
+<div class="jumbotron">
+      <div class="container">
+    <h3 id="title">Search Appliance </h3>
+    <form action="/search" method="POST">
+      <div class="form-group">
+<!--        <label for="searchInput">Search String:</label>-->
+        <input name='query' type="text" class="form-control" id="searchInput" placeholder="Enter search string" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+<!--    <table id="searchResultsTable" class="table" >-->
+<!--      <thead>-->
+<!--        <tr>-->
+<!--          <th>Manufacturer Name</th>-->
+<!--          <th>Model Name</th>-->
+<!--        </tr>-->
+<!--      </thead>-->
+<!--      <tbody id="searchResultsBody">-->
+<!--       {% for item in search_data %}-->
+<!--            <tr>-->
+<!--                <td>{{item[0] }}</td>-->
+<!--                <td>{{item[1] }}</td>-->
+<!--            </tr>-->
+<!--        {% endfor %}-->
+<!--      </tbody>-->
+<!--    </table>-->
+          <br>
+          <br>
+          <div >
+<!--            <a href="{{ url_for('reporting')}}" class="btn btn-primary btn-lg report-button">Back</a>-->
+          </div>
+  </div>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <a href="{{ url_for('reporting')}}" class="btn btn-primary btn-lg report-button">Back</a>
+{% endblock %}

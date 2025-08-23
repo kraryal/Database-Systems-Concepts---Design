@@ -1,0 +1,13 @@
+    body {
+      padding: 20px;
+    }
+
+    .jumbotron {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .btn-container {
+      text-align: center;
+      margin-top: 20px;
+    }

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Appliance{% endblock %}
+
+{% block content %}
+<!--<script src="{{ url_for('static', filename='js/add_appliance.js') }}"></script>-->
+<div class="jumbotron">
+  <div class="container">
+    <h3>Add New Appliance</h3>
+    <p>Please provide the details for the appliance</p>
+    <form action="/add_appliance" method="POST" id="applianceForm">
+      <div class="form-group">
+        <label for="applianceType"> Select Appliance Type:</label>
+        <select name="appliance_type" class="form-control" id="applianceType" required onchange="showFields()">
+            <option value=""></option>
+          <option value="AirHandler">Air Handler</option>
+          <option value="WaterHeater">Water Heater</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <input type="text" name="manufacturer" class="form-control" id="manufacturer" placeholder="Enter Manufacturer name"  required>
+      </div>
+
+      <div class="form-group">
+        <input type="text" name="model_name" class="form-control" id="modelName" placeholder="Enter Model name" required>
+      </div>
+
+      <div class="form-group">
+        <input type="number"  name="btu"  class="form-control" id="btu" placeholder="Enter BTU rating"  required>
+      </div>
+
+      <div id="specificFields" style="display: none;">
+      </div>
+
+      <input type="hidden" name="applianceData" id="applianceData" value="" />
+<!--      <input type="hidden" name="email" id="applianceData" value="{{ email }}" />-->
+
+      <button type="submit" class="btn btn-primary">Next</button>
+    </form>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='js/add_appliance.js') }}"></script>
+{% endblock %}

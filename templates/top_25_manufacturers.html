@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Top 25 Manufacturers Report{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+  <div class="container">
+    <h3>Top Manufacturers Report</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Manufacturer</th>
+          <th>Appliance Count</th>
+          <th>Drilldown</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for item in output %}
+        <tr>
+          <td>{{ item[0] }}</td>
+          <td>{{ item[1] }}</td>
+          <td><a href="{{ url_for('manufacturer', name=item[0])}}" class="btn btn-primary"> View Drilldown</a></td>
+        </tr>
+      {% endfor %}
+        <!-- Adds more rows for each manufacturer -->
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<a href="{{ url_for('reporting')}}" class="btn btn-primary btn-lg report-button">Back</a>
+{% endblock %}

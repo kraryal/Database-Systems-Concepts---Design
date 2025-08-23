@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %} >Page Not Found {% endblock %}
+
+{% block content %}
+  <div class="container">
+  	<div class="jumbotron">
+    <h3><strong>Page Not Found!</strong></h3>
+    <p>What you were looking for is just not in the requirements package!</p>
+    <a href="{{ url_for('index') }}" class="btn-primary">Return to Main Menu</a>
+  	</div>
+  </div>
+{% endblock %}

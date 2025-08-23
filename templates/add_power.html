@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Power Generation {% endblock %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <div class="container">
+    <h3>Add Power Generation</h3>
+        <p>Please provide power generation details</p>
+        <p style ="display:none; font-size:small;" id="heatingCoolingInfo" >{{ message }}</p>
+    <form action="/add_power", method="POST">
+      <div class="form-group">
+        <label for="type">Select Power Type:</label>
+        <select name="powertype" class="form-control" id="type" required>
+            <option value=""></option>
+          <option value="solar">Solar</option>
+          <option value="wind-turbine">Wind-Turbine</option>
+        </select>
+      </div>
+      <div class="form-group">
+<!--        <label for="monthlyKWh">Monthly kWh:</label>-->
+        <input type="number" name="monthlyKWh" class="form-control" id="monthlyKWh" placeholder="Enter Monthly kWh" required>
+      </div>
+      <div class="form-group">
+<!--        <label for="storageKWh">Storage kWh:</label>-->
+        <input type="number" name="storageKWh" class="form-control" id="storageKWh" placeholder="Enter Storage kWh" required>
+      </div>
+      <a href=" {{url_for('wrapup')}} " id="skipButton" type="button" class="btn btn-primary">Skip</a>
+      <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+  </div>
+</div>
+
+<script>
+    window.addEventListener("DOMContentLoaded", (event) => {
+        var myElement = document.getElementById("heatingCoolingInfo");
+        if (myElement.innerHTML == "True") {
+        document.getElementById("skipButton").style.display = "none";
+        }
+        //
+        // if ( document.getElementsByClassName('powerappliances').length > 0) {
+        //     document.getElementById("skipButton").style.display;
+        // }
+    });
+</script>
+{% endblock %}

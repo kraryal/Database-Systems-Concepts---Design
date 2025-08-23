@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h3>Household averages by radius</h3>
+        <br>
+        <form action ='/household_average_by_radius' method="POST" id="searchForm">
+            <label for="postalCodeInput">Postal Code:</label>
+            <input name="postalcode" class="form-control" type="text" id="postalCodeInput" required pattern="[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d">
+            <br>
+            <label for="radiusInput">Search Radius (in miles):</label>
+            <select name="radius" class="form-control" required id="radiusInput" >
+              <option value="0">0</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="250">250</option>
+            </select>
+            <br>
+            <button class="btn btn-primary btn-lg" type="submit">Search</button>
+        </form>
+
+        <div id="searchResults">
+        </div>
+
+
+
+        <br>
+        <a href="{{ url_for('reporting')}}" class="btn btn-primary btn-lg report-button">Back</a>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+
+Installation Guide:
+1) Login to the Ubuntu operating system
+2) Create a new project directory (command mkdir project)
+3) Browse to the project directory (command cd /project)
+4) Copy all application files and executables (including related directories) into the /project directory
+5) From /project directory, install application dependencies (command pip install -r requirements.txt).
+6) Reboot the server and login to the server console.
+7) From the /project directory, run the command "flask run" to start the application
+8) Browse to http://localhost:5000 to Launch the Main Menu
+

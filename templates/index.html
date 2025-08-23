@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="jumbotron">
+        <h3 >Welcome to Alternakraft</h3>
+        <p>Please choose what you would like to do</p>
+        <div class="button-group">
+<!--            <a href="{{ url_for('reporting') }}" class="btn btn-primary">View Reports</a>-->
+            <a href="{{ url_for('add_household') }}" class="btn btn-lg btn-primary">Add Household Info</a>
+            <a href="{{ url_for('reporting') }}" class="btn btn-lg btn-primary">View Reports</a>
+<!--            <a href="{{ url_for('view_households') }}" class="btn btn-primary">View Households </a>-->
+<!--            <a href="{{ url_for('add_appliance') }}" class="btn btn-primary">Add Appliance </a>-->
+<!--            <a href="{{ url_for('appliance_listings') }}" class="btn btn-primary">View Appliances </a>-->
+<!--            <a href="{{ url_for('add_power') }}" class="btn btn-primary">Add Power </a>-->
+<!--            <a href="{{ url_for('power_listings') }}" class="btn btn-primary">View Powers </a>-->
+<!--            <a href="{{ url_for('wrapup') }}" class="btn btn-primary">Wrap Up  </a>-->
+<!--            <a href="{{ url_for('search') }}" class="btn btn-primary">Search  </a>-->
+        </div>
+    </div>
+{% endblock %}

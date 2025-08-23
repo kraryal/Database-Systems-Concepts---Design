@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Appliances{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+  <h3>Appliances</h3>
+    <p>You have added the following appliances to your household</p>
+<!--  <p class = "counter"></p>-->
+<!--    <p class = "counter" style="display: none; font-size: small;"></p>-->
+    <table id ='data-table' class="table">
+      <thead>
+        <tr>
+          <th>Appliance #</th>
+          <th>Type</th>
+          <th>Manufacturer</th>
+          <th>Model</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for item in output %}
+        <tr class="appliances">
+          <td>{{ item[0] }}</td>
+          <td>{{ item[1] }}</td>
+          <td>{{ item[2] }}</td>
+          <td>{{ item[3] }}</td>
+          <td><a href="{{ url_for('appliances', id=item[0]) }}" class="delete-link btn btn-primary">Delete</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  <a href="{{ url_for('add_appliance')}}" class="delete-link left">+Add another appliance</a>
+  <br>
+  <a href="{{ url_for('add_power')}}" id="nextButton" class="delete-link left btn btn-primary">Next</a>
+</div>
+<script src="{{ url_for('static', filename='js/appliance_listings.js') }}"></script>
+<script>
+    window.addEventListener("DOMContentLoaded", (event) => {
+        var myElements = document.getElementsByClassName("appliances").length
+        if (myElements.length = 0 ) {
+        document.getElementById("nextButton").style.display = "none";
+        }
+    });
+</script>
+{% endblock %}

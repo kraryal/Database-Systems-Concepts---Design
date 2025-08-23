@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Household{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Add New Household</h1>
+            <form method="POST" action="{{ url_for('add_household') }}">
+                {% include 'partials/_add_household_form.html' %}
+                <input class="btn btn-primary" type="submit" value="Next">
+            </form>
+        </div>
+    </div>
+{% endblock %}

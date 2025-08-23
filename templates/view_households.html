@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}View Households{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h3>Households</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Postal Code</th>
+                <th>Dwelling Type</th>
+                <th>Square Footage</th>
+                <th>Thermostat</th>
+                <th>Public Utilities</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for household in households %}
+                <tr>
+                    <td>{{ household.email }}</td>
+                    <td>{{ household.postal_code }}</td>
+                    <td>{{ household.dwelling_type }}</td>
+                    <td>{{ household.square_footage }}</td>
+                    <td>{{ household.thermostat }}</td>
+                    <td>{{ household.public_utilities }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
