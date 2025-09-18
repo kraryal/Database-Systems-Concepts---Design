@@ -151,41 +151,155 @@ flask run
 
 ```sql
 -- Student Performance Analysis
-SELECT 
-    s.name, 
-    c.course_name, 
-    e.grade,
-    CASE 
-        WHEN e.grade >= 90 THEN 'Excellent'
-        WHEN e.grade >= 80 THEN 'Good' 
-        WHEN e.grade >= 70 THEN 'Average'
-        ELSE 'Needs Improvement'
-    END AS performance
-FROM students s
-JOIN enrollments e ON s.student_id = e.student_id
-JOIN courses c ON e.course_id = c.course_id
-WHERE e.grade > 85
-ORDER BY e.grade DESC;
+DROP DATABASE  IF EXISTS CS6400_PROJECT;
+CREATE DATABASE CS6400_PROJECT;
+USE CS6400_PROJECT;
+-- 1.Postal code
+CREATE TABLE PostalCode
+(PostalCode				CHAR(5),
+PRIMARY KEY(PostalCode),			    
+City			    	VARCHAR(50)     	NOT NULL,
+StateName		  		VARCHAR(50)     	NOT NULL,
+Latitude		  		DECIMAL	(11,8)		    NOT NULL,
+Longitude		  		DECIMAL	(11,8)	    	NOT NULL);
+
+
+
+-- 2.Household
+CREATE TABLE Household 
+(Email			            VARCHAR(50)	,
+Square_footage			    INT			      NOT NULL,
+Cooling_temperature		  	INT			      NULL,
+Heating_temperature		  	INT			      NULL,
+Household_Type			    VARCHAR(50)		  NOT NULL,
+PostalCode CHAR(5),
+PRIMARY KEY(Email),
+FOREIGN KEY (PostalCode) REFERENCES PostalCode(PostalCode));
+
+
+-- 3. Household_utilities
+CREATE TABLE Household_utilities
+(UtilityName 				varchar(50) 			NOT NULL,
+Email			            VARCHAR(50)	,
+FOREIGN KEY (Email)  REFERENCES Household(Email),
+PRIMARY KEY(Email, UtilityName));
+
+
+
+-- 4.Manufacturer
+CREATE TABLE Manufacturer
+(ManufacturerName			VARCHAR(50)		NOT NULL,
+ManufacturerID              INT auto_increment,
+ PRIMARY KEY (ManufacturerID) );
+
+-- 5. Appliances
+CREATE TABLE Appliances
+(Email			            	VARCHAR(50)	,
+ HouseholdApplianceNum			INT,
+ PRIMARY KEY (Email, HouseholdApplianceNum),
+ BTUrating					    INT				    NOT NULL,
+ Appliance_Type				  	VARCHAR(50)			NOT NULL,
+ ManufacturerID				  	INT,
+ FOREIGN KEY(ManufacturerID)   REFERENCES Manufacturer(ManufacturerID),
+ Model						      VARCHAR(50)		NULL);
+
+-- 6.EnergySource
+CREATE TABLE EnergySource
+(SourceID				  		INT,
+PRIMARY KEY(SourceID),
+SourceName						VARCHAR(50) 		NOT NULL);
+
+
+-- 7. WaterHeater
+CREATE TABLE WaterHeater
+(SourceID					INT,
+ FOREIGN KEY(SourceID) REFERENCES EnergySource(SourceID),
+ TankSize					DECIMAL			    NOT NULL,
+ Temperature				INT				    NOT NULL,
+ Email			            VARCHAR(50)	,
+ HouseholdApplianceNum		INT,
+ PRIMARY KEY (Email, HouseholdApplianceNum));
+
+-- 8. HeatPump
+CREATE TABLE  HeatPump
+(SourceID							INT,
+ FOREIGN KEY(SourceID) REFERENCES EnergySource(SourceID),
+ Email			            		VARCHAR(50)	,
+ HouseholdApplianceNum				INT,
+ PRIMARY KEY (Email, HouseholdApplianceNum),
+ SEER					         	DECIMAL				NOT NULL,
+ HSPF					          	DECIMAL				NOT NULL);
+
+-- 9. AirHandler
+CREATE TABLE  AirHandler
+(Email			            		VARCHAR(50)	,
+ HouseholdApplianceNum				INT,
+ PRIMARY KEY (Email, HouseholdApplianceNum),
+ FanRotationsPerminute				INT			    	NOT NULL);
+
+
+-- 10.Heater
+CREATE TABLE Heater
+(SourceID							INT,
+ FOREIGN KEY(SourceID) REFERENCES EnergySource(SourceID),
+  Email			            		VARCHAR(50)	,
+ HouseholdApplianceNum				INT,
+ PRIMARY KEY (Email, HouseholdApplianceNum));
+
+
+-- 11.AirConditioner
+CREATE TABLE AirConditioner
+(SourceID							INT,
+ FOREIGN KEY(SourceID) REFERENCES EnergySource(SourceID),
+  Email			            		VARCHAR(50)	,
+ HouseholdApplianceNum				INT,
+ PRIMARY KEY (Email, HouseholdApplianceNum),
+ EER						        DECIMAL		    NOT NULL);
+
+-- 12. PowerGenerator
+
+CREATE TABLE PowerGenerator
+(Email				        		VARCHAR(50),
+ GeneratorID		      			INT,
+ PRIMARY KEY (Email, GeneratorID),
+ GenerationType		    			VARCHAR(50)		NOT NULL,
+ AvgMonthly_kWh		    			INT				NOT NULL,
+ BatteryStorage_kWh	  				INT				NOT NULL);
 ```
 
-### 🏗️ **Schema Design Example**
+### 🏗️ **Average Radius**
 
 ```sql
--- E-Commerce Database Schema
-CREATE TABLE customers (
-    customer_id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+USE CS6400_PROJECT;
+SET @given_postal_code = '44240';-- (SELECT PostalCode FROM AverageRadius WHERE PostalCode = ( SELECT MAX(PostalCode) FROM PostalCode));
+SET @given_radius = 100; -- (SELECT Radius FROM AverageRadius); -- Search radius in miles
+SET @given_latitude = (SELECT latitude FROM PostalCode WHERE PostalCode = @given_postal_code);
+SET @given_longitude = (SELECT longitude FROM PostalCode WHERE PostalCode = @given_postal_code);
 
-CREATE TABLE orders (
-    order_id INT PRIMARY KEY AUTO_INCREMENT,
-    customer_id INT,
-    total_amount DECIMAL(10,2),
-    order_status ENUM('pending', 'shipped', 'delivered'),
-    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
-);
+SELECT
+  p.Postalcode,
+  Round(3958.75 * 2 * ATAN2(SQRT(SIN((latitude-@given_latitude) * PI()/180/2) * SIN((latitude-@given_latitude) * PI()/180/2) +
+         COS(@given_latitude * PI()/180) * COS(latitude * PI()/180) *
+         SIN((longitude-@given_longitude) * PI()/180/2) * SIN((longitude-@given_longitude) * PI()/180/2)), SQRT(1-SIN((latitude-@given_latitude) * PI()/180/2) * SIN((latitude-@given_latitude) * PI()/180/2) +
+         COS(@given_latitude * PI()/180) * COS(latitude * PI()/180) *
+         SIN((longitude-@given_longitude) * PI()/180/2) * SIN((longitude-@given_longitude) * PI()/180/2))),1) AS distance,
+h.Household_Type, COALESCE(Count(*),0) as cnt_household, Round(Avg(h.Heating_temperature),1),Round(Avg(h.Cooling_temperature),1), group_concat(utilityname, ', ') AS utilities
+FROM
+  PostalCode p
+Join Household h
+ON h.PostalCode = p.PostalCode
+Join Household_utilities u
+ON h.email =u.email
+Join Powergenerator g
+ON g.email = h.email
+WHERE
+  p.PostalCode <> @given_postal_code
+  AND (3958.75 * 2 * ATAN2(SQRT(SIN((latitude-@given_latitude) * PI()/180/2) * SIN((latitude-@given_latitude) * PI()/180/2) +
+         COS(@given_latitude * PI()/180) * COS(latitude * PI()/180) *
+         SIN((longitude-@given_longitude) * PI()/180/2) * SIN((longitude-@given_longitude) * PI()/180/2)), SQRT(1-SIN((latitude-@given_latitude) * PI()/180/2) * SIN((latitude-@given_latitude) * PI()/180/2) +
+         COS(@given_latitude * PI()/180) * COS(latitude * PI()/180) *
+         SIN((longitude-@given_longitude) * PI()/180/2) * SIN((longitude-@given_longitude) * PI()/180/2)))>= @given_radius)
+         Group by p.Postalcode,h.Household_Type;
 ```
 
 ### 🐍 **Flask Integration**
