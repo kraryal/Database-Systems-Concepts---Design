@@ -150,123 +150,181 @@ flask run
 ### 🔍 **Basic SQL Operations**
 
 ```sql
--- Student Performance Analysis
-DROP DATABASE  IF EXISTS CS6400_PROJECT;
+-- =====================================================
+-- CS6400 PROJECT DATABASE SCHEMA
+-- Database Systems Concepts & Design
+-- =====================================================
+
+DROP DATABASE IF EXISTS CS6400_PROJECT;
 CREATE DATABASE CS6400_PROJECT;
 USE CS6400_PROJECT;
--- 1.Postal code
-CREATE TABLE PostalCode
-(PostalCode				CHAR(5),
-PRIMARY KEY(PostalCode),			    
-City			    	VARCHAR(50)     	NOT NULL,
-StateName		  		VARCHAR(50)     	NOT NULL,
-Latitude		  		DECIMAL	(11,8)		    NOT NULL,
-Longitude		  		DECIMAL	(11,8)	    	NOT NULL);
 
+-- =====================================================
+-- TABLE DEFINITIONS
+-- =====================================================
 
+-- -----------------------------------------------------
+-- 1. PostalCode Table
+-- -----------------------------------------------------
+CREATE TABLE PostalCode (
+    PostalCode          CHAR(5)         NOT NULL,
+    City                VARCHAR(50)     NOT NULL,
+    StateName           VARCHAR(50)     NOT NULL,
+    Latitude            DECIMAL(11,8)   NOT NULL,
+    Longitude           DECIMAL(11,8)   NOT NULL,
+    
+    PRIMARY KEY (PostalCode)
+);
 
--- 2.Household
-CREATE TABLE Household 
-(Email			            VARCHAR(50)	,
-Square_footage			    INT			      NOT NULL,
-Cooling_temperature		  	INT			      NULL,
-Heating_temperature		  	INT			      NULL,
-Household_Type			    VARCHAR(50)		  NOT NULL,
-PostalCode CHAR(5),
-PRIMARY KEY(Email),
-FOREIGN KEY (PostalCode) REFERENCES PostalCode(PostalCode));
+-- -----------------------------------------------------
+-- 2. Household Table
+-- -----------------------------------------------------
+CREATE TABLE Household (
+    Email                   VARCHAR(50)     NOT NULL,
+    Square_footage          INT             NOT NULL,
+    Cooling_temperature     INT             NULL,
+    Heating_temperature     INT             NULL,
+    Household_Type          VARCHAR(50)     NOT NULL,
+    PostalCode              CHAR(5)         NOT NULL,
+    
+    PRIMARY KEY (Email),
+    FOREIGN KEY (PostalCode) REFERENCES PostalCode(PostalCode)
+);
 
+-- -----------------------------------------------------
+-- 3. Household_utilities Table
+-- -----------------------------------------------------
+CREATE TABLE Household_utilities (
+    Email               VARCHAR(50)     NOT NULL,
+    UtilityName         VARCHAR(50)     NOT NULL,
+    
+    PRIMARY KEY (Email, UtilityName),
+    FOREIGN KEY (Email) REFERENCES Household(Email)
+);
 
--- 3. Household_utilities
-CREATE TABLE Household_utilities
-(UtilityName 				varchar(50) 			NOT NULL,
-Email			            VARCHAR(50)	,
-FOREIGN KEY (Email)  REFERENCES Household(Email),
-PRIMARY KEY(Email, UtilityName));
+-- -----------------------------------------------------
+-- 4. Manufacturer Table
+-- -----------------------------------------------------
+CREATE TABLE Manufacturer (
+    ManufacturerID      INT             AUTO_INCREMENT,
+    ManufacturerName    VARCHAR(50)     NOT NULL,
+    
+    PRIMARY KEY (ManufacturerID)
+);
 
+-- -----------------------------------------------------
+-- 5. Appliances Table
+-- -----------------------------------------------------
+CREATE TABLE Appliances (
+    Email                       VARCHAR(50)     NOT NULL,
+    HouseholdApplianceNum       INT             NOT NULL,
+    BTUrating                   INT             NOT NULL,
+    Appliance_Type              VARCHAR(50)     NOT NULL,
+    ManufacturerID              INT             NOT NULL,
+    Model                       VARCHAR(50)     NULL,
+    
+    PRIMARY KEY (Email, HouseholdApplianceNum),
+    FOREIGN KEY (Email) REFERENCES Household(Email),
+    FOREIGN KEY (ManufacturerID) REFERENCES Manufacturer(ManufacturerID)
+);
 
+-- -----------------------------------------------------
+-- 6. EnergySource Table
+-- -----------------------------------------------------
+CREATE TABLE EnergySource (
+    SourceID            INT             NOT NULL,
+    SourceName          VARCHAR(50)     NOT NULL,
+    
+    PRIMARY KEY (SourceID)
+);
 
--- 4.Manufacturer
-CREATE TABLE Manufacturer
-(ManufacturerName			VARCHAR(50)		NOT NULL,
-ManufacturerID              INT auto_increment,
- PRIMARY KEY (ManufacturerID) );
+-- -----------------------------------------------------
+-- 7. WaterHeater Table
+-- -----------------------------------------------------
+CREATE TABLE WaterHeater (
+    Email                       VARCHAR(50)     NOT NULL,
+    HouseholdApplianceNum       INT             NOT NULL,
+    SourceID                    INT             NOT NULL,
+    TankSize                    DECIMAL(8,2)    NOT NULL,
+    Temperature                 INT             NOT NULL,
+    
+    PRIMARY KEY (Email, HouseholdApplianceNum),
+    FOREIGN KEY (Email, HouseholdApplianceNum) REFERENCES Appliances(Email, HouseholdApplianceNum),
+    FOREIGN KEY (SourceID) REFERENCES EnergySource(SourceID)
+);
 
--- 5. Appliances
-CREATE TABLE Appliances
-(Email			            	VARCHAR(50)	,
- HouseholdApplianceNum			INT,
- PRIMARY KEY (Email, HouseholdApplianceNum),
- BTUrating					    INT				    NOT NULL,
- Appliance_Type				  	VARCHAR(50)			NOT NULL,
- ManufacturerID				  	INT,
- FOREIGN KEY(ManufacturerID)   REFERENCES Manufacturer(ManufacturerID),
- Model						      VARCHAR(50)		NULL);
+-- -----------------------------------------------------
+-- 8. HeatPump Table
+-- -----------------------------------------------------
+CREATE TABLE HeatPump (
+    Email                       VARCHAR(50)     NOT NULL,
+    HouseholdApplianceNum       INT             NOT NULL,
+    SourceID                    INT             NOT NULL,
+    SEER                        DECIMAL(4,2)    NOT NULL,
+    HSPF                        DECIMAL(4,2)    NOT NULL,
+    
+    PRIMARY KEY (Email, HouseholdApplianceNum),
+    FOREIGN KEY (Email, HouseholdApplianceNum) REFERENCES Appliances(Email, HouseholdApplianceNum),
+    FOREIGN KEY (SourceID) REFERENCES EnergySource(SourceID)
+);
 
--- 6.EnergySource
-CREATE TABLE EnergySource
-(SourceID				  		INT,
-PRIMARY KEY(SourceID),
-SourceName						VARCHAR(50) 		NOT NULL);
+-- -----------------------------------------------------
+-- 9. AirHandler Table
+-- -----------------------------------------------------
+CREATE TABLE AirHandler (
+    Email                       VARCHAR(50)     NOT NULL,
+    HouseholdApplianceNum       INT             NOT NULL,
+    FanRotationsPerminute       INT             NOT NULL,
+    
+    PRIMARY KEY (Email, HouseholdApplianceNum),
+    FOREIGN KEY (Email, HouseholdApplianceNum) REFERENCES Appliances(Email, HouseholdApplianceNum)
+);
 
+-- -----------------------------------------------------
+-- 10. Heater Table
+-- -----------------------------------------------------
+CREATE TABLE Heater (
+    Email                       VARCHAR(50)     NOT NULL,
+    HouseholdApplianceNum       INT             NOT NULL,
+    SourceID                    INT             NOT NULL,
+    
+    PRIMARY KEY (Email, HouseholdApplianceNum),
+    FOREIGN KEY (Email, HouseholdApplianceNum) REFERENCES Appliances(Email, HouseholdApplianceNum),
+    FOREIGN KEY (SourceID) REFERENCES EnergySource(SourceID)
+);
 
--- 7. WaterHeater
-CREATE TABLE WaterHeater
-(SourceID					INT,
- FOREIGN KEY(SourceID) REFERENCES EnergySource(SourceID),
- TankSize					DECIMAL			    NOT NULL,
- Temperature				INT				    NOT NULL,
- Email			            VARCHAR(50)	,
- HouseholdApplianceNum		INT,
- PRIMARY KEY (Email, HouseholdApplianceNum));
+-- -----------------------------------------------------
+-- 11. AirConditioner Table
+-- -----------------------------------------------------
+CREATE TABLE AirConditioner (
+    Email                       VARCHAR(50)     NOT NULL,
+    HouseholdApplianceNum       INT             NOT NULL,
+    SourceID                    INT             NOT NULL,
+    EER                         DECIMAL(4,2)    NOT NULL,
+    
+    PRIMARY KEY (Email, HouseholdApplianceNum),
+    FOREIGN KEY (Email, HouseholdApplianceNum) REFERENCES Appliances(Email, HouseholdApplianceNum),
+    FOREIGN KEY (SourceID) REFERENCES EnergySource(SourceID)
+);
 
--- 8. HeatPump
-CREATE TABLE  HeatPump
-(SourceID							INT,
- FOREIGN KEY(SourceID) REFERENCES EnergySource(SourceID),
- Email			            		VARCHAR(50)	,
- HouseholdApplianceNum				INT,
- PRIMARY KEY (Email, HouseholdApplianceNum),
- SEER					         	DECIMAL				NOT NULL,
- HSPF					          	DECIMAL				NOT NULL);
+-- -----------------------------------------------------
+-- 12. PowerGenerator Table
+-- -----------------------------------------------------
+CREATE TABLE PowerGenerator (
+    Email                       VARCHAR(50)     NOT NULL,
+    GeneratorID                 INT             NOT NULL,
+    GenerationType              VARCHAR(50)     NOT NULL,
+    AvgMonthly_kWh              INT             NOT NULL,
+    BatteryStorage_kWh          INT             NOT NULL,
+    
+    PRIMARY KEY (Email, GeneratorID),
+    FOREIGN KEY (Email) REFERENCES Household(Email)
+);
 
--- 9. AirHandler
-CREATE TABLE  AirHandler
-(Email			            		VARCHAR(50)	,
- HouseholdApplianceNum				INT,
- PRIMARY KEY (Email, HouseholdApplianceNum),
- FanRotationsPerminute				INT			    	NOT NULL);
-
-
--- 10.Heater
-CREATE TABLE Heater
-(SourceID							INT,
- FOREIGN KEY(SourceID) REFERENCES EnergySource(SourceID),
-  Email			            		VARCHAR(50)	,
- HouseholdApplianceNum				INT,
- PRIMARY KEY (Email, HouseholdApplianceNum));
-
-
--- 11.AirConditioner
-CREATE TABLE AirConditioner
-(SourceID							INT,
- FOREIGN KEY(SourceID) REFERENCES EnergySource(SourceID),
-  Email			            		VARCHAR(50)	,
- HouseholdApplianceNum				INT,
- PRIMARY KEY (Email, HouseholdApplianceNum),
- EER						        DECIMAL		    NOT NULL);
-
--- 12. PowerGenerator
-
-CREATE TABLE PowerGenerator
-(Email				        		VARCHAR(50),
- GeneratorID		      			INT,
- PRIMARY KEY (Email, GeneratorID),
- GenerationType		    			VARCHAR(50)		NOT NULL,
- AvgMonthly_kWh		    			INT				NOT NULL,
- BatteryStorage_kWh	  				INT				NOT NULL);
+-- =====================================================
+-- END OF SCHEMA DEFINITION
+-- =====================================================
 ```
-
 ### 🏗️ **Average Radius**
 
 ```sql
@@ -361,14 +419,7 @@ git push origin feature/amazing-feature
 # 5. Open Pull Request
 ```
 
-### **Guidelines**
-- ✅ Follow consistent code formatting
-- ✅ Include comprehensive documentation  
-- ✅ Add practical examples
-- ✅ Test all SQL scripts
-- ✅ Update README for new features
 
----
 
 ## 📚 Learning Resources
 
