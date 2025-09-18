@@ -11,7 +11,7 @@ from heating_details import heating_details
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'H05+0p14'
+app.config['MYSQL_PASSWORD'] = '0442084'
 app.config['MYSQL_DB'] = 'cs6400_project'
 
 app.secret_key = '12345678'
@@ -88,38 +88,70 @@ def index():
 @app.route('/add_household', methods=['GET', 'POST'])
 def add_household():
     if request.method == 'POST':
-        email = request.form["email"]
-        session['email'] = email
-        square_footage = request.form['square_footage']
-        coolThermo = request.form['coolThermo']
-        heatThermo = request.form['heatThermo']
-        if coolThermo == "":
-            coolThermo = None
-        if heatThermo == "":
-            heatThermo = None
-        household_type = request.form['household_type']
-        postal_code = request.form['postal_code']
-        utilities = request.form.getlist('utils')
-        cursor = mysql.connection.cursor()
-        cursor.execute("SELECT COUNT(*) FROM POSTALCODE WHERE postalcode = %s", (postal_code,))
-        result = cursor.fetchone()
-        cursor.execute("SELECT COUNT(*) FROM household WHERE email = %s", (email,))
-        result2 = cursor.fetchone()
-        cursor.close()
-        if (result2[0] > 0):
-            return render_template('error_messages.html',
-                                   message= email + " is already in use. Please select a valid email address and try again")
-        elif (result[0] < 1):
-            return render_template('error_messages.html',
-                                   message= postal_code + " is an invalid postal code. Please select a new postal code and try again")
-        else:
+        try:
+            email = request.form["email"]
+            print(f"DEBUG: Email received: {email}")
+            
+            session['email'] = email
+            square_footage = request.form['square_footage']
+            print(f"DEBUG: Square footage: {square_footage}")
+            
+            coolThermo = request.form['coolThermo']
+            heatThermo = request.form['heatThermo']
+            print(f"DEBUG: Cool temp: '{coolThermo}', Heat temp: '{heatThermo}'")
+            
+            if coolThermo == "":
+                coolThermo = None
+            if heatThermo == "":
+                heatThermo = None
+                
+            household_type = request.form['household_type']
+            postal_code = request.form['postal_code']
+            utilities = request.form.getlist('public_utilities')
+            
+            print(f"DEBUG: household_type: {household_type}")
+            print(f"DEBUG: postal_code: {postal_code}")
+            print(f"DEBUG: utilities: {utilities}")
+            
             cursor = mysql.connection.cursor()
-            cursor.execute('''INSERT INTO HOUSEHOLD VALUES(%s, %s,%s,%s,%s,%s)''', (email, int(square_footage), coolThermo, heatThermo, household_type, postal_code))
-            for utility in utilities:
-                cursor.execute('''INSERT INTO HOUSEHOLD_UTILITIES (EMAIL, UTILITYNAME) VALUES(%s, %s)''',(email, utility))
-            mysql.connection.commit()
-            cursor.close()
-            return redirect('/add_appliance')
+            
+            # Check postal code validation
+            cursor.execute("SELECT COUNT(*) FROM POSTALCODE WHERE postalcode = %s", (postal_code,))
+            result = cursor.fetchone()
+            print(f"DEBUG: Postal code validation result: {result[0]}")
+            
+            # Check email validation
+            cursor.execute("SELECT COUNT(*) FROM household WHERE email = %s", (email,))
+            result2 = cursor.fetchone()
+            print(f"DEBUG: Email validation result: {result2[0]}")
+            
+            if (result2[0] > 0):
+                cursor.close()
+                return render_template('error_messages.html',
+                                       message= email + " is already in use. Please select a valid email address and try again")
+            elif (result[0] < 1):
+                cursor.close()
+                return render_template('error_messages.html',
+                                       message= postal_code + " is an invalid postal code. Please select a new postal code and try again")
+            else:
+                print("DEBUG: About to insert household record...")
+                cursor.execute('''INSERT INTO HOUSEHOLD VALUES(%s, %s,%s,%s,%s,%s)''', (email, int(square_footage), coolThermo, heatThermo, household_type, postal_code))
+                print("DEBUG: Household record inserted")
+                
+                print("DEBUG: About to insert utilities...")
+                for utility in utilities:
+                    print(f"DEBUG: Inserting utility: {utility}")
+                    cursor.execute('''INSERT INTO HOUSEHOLD_UTILITIES (EMAIL, UTILITYNAME) VALUES(%s, %s)''',(email, utility))
+                
+                mysql.connection.commit()
+                print("DEBUG: All changes committed to database")
+                cursor.close()
+                return redirect('/add_appliance')
+                
+        except Exception as e:
+            print(f"DEBUG ERROR: {e}")
+            return render_template('error_messages.html', message=f"Database error: {str(e)}")
+            
     return render_template('add_household.html')
 
 @app.route('/add_appliance', methods=['GET','POST'])
@@ -413,6 +445,8 @@ def error_messages():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
