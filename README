@@ -52,15 +52,6 @@ This repository contains theoretical concepts, practical examples, and hands-on 
 - Distributed Databases
 
 ## 🗂️ Project Structure
-Installation Guide:
-1) Login to the Ubuntu operating system
-2) Create a new project directory (command mkdir project)
-3) Browse to the project directory (command cd /project)
-4) Copy all application files and executables (including related directories) into the /project directory
-5) From /project directory, install application dependencies (command pip install -r requirements.txt).
-6) Reboot the server and login to the server console.
-7) From the /project directory, run the command "flask run" to start the application
-8) Browse to http://localhost:5000 to Launch the Main Menu
 
 Database-Systems-Concepts---Design/
 │
@@ -87,7 +78,6 @@ Database-Systems-Concepts---Design/
 │
 └── README.md
 
-2. Set up your database environment
 ## 🔧 Prerequisites
 
 Before you begin, ensure you have:
@@ -99,6 +89,8 @@ Before you begin, ensure you have:
 
 ### Software Requirements
 
+- **Python**: 3.7+ (if using Flask applications)
+- **Flask**: Latest version
 - **Database System**: MySQL 8.0+ / PostgreSQL 12+ / SQLite 3+
 - **Optional Tools**: 
   - MySQL Workbench / pgAdmin
@@ -107,11 +99,23 @@ Before you begin, ensure you have:
 
 ## 🚀 Installation
 
+### Method 1: Basic Setup
 1. **Clone the repository**
    ```bash
    git clone https://github.com/kraryal/Database-Systems-Concepts---Design.git
    cd Database-Systems-Concepts---Design
 
+## 2. Set up a virtual environment (optional but recommended)
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
+3. **Install required packages**
+   ```bash
+    pip install -r requirements.txt
+    ```
+4. **Set up your database environment**
+```bash
 # For MySQL
 mysql -u root -p
 
@@ -120,3 +124,30 @@ psql -U postgres
 
 # For SQLite
 sqlite3 example.db
+```
+
+Method 2: Flask Application Setup (Ubuntu)
+
+Login to the Ubuntu operating system
+Create a new project directory
+```bash
+mkdir database_project
+cd database_project
+```
+Copy all application files and executables into the /project directory
+Install application dependencies:
+```bash
+pip install -r requirements.txt
+```
+Reboot the server and login to the server console
+Start the application:
+```bash
+python app.py # or the main application 
+flask run
+```
+5. **Run the application**
+   ```bash
+   python app.py  # or the main application file
+   ```
+6. **Access the application**
+   Open your web browser and navigate to `http://localhost:5000` (or the port specified in your application). 
