@@ -1,5 +1,4 @@
-```markdown
-# 🗄️ Database Systems Concepts & Design
+# Database Systems Concepts & Design
 
 <div align="center">
 
@@ -22,10 +21,6 @@ A **comprehensive repository** covering fundamental concepts, design principles,
 
 ## ✨ Key Features
 
-<table>
-<tr>
-<td width="50%">
-
 ### 🧠 **Conceptual Learning**
 - Clear explanations of database fundamentals
 - Step-by-step tutorials and guides
@@ -35,9 +30,6 @@ A **comprehensive repository** covering fundamental concepts, design principles,
 - Best practices for schema design
 - Industry-standard approaches
 - Scalable architectures
-
-</td>
-<td width="50%">
 
 ### 💻 **Practical Implementation**
 - Comprehensive SQL queries
@@ -49,57 +41,28 @@ A **comprehensive repository** covering fundamental concepts, design principles,
 - Concurrency control
 - Distributed systems
 
-</td>
-</tr>
-</table>
-
----
-
-## 🎯 Learning Path
-
-```mermaid
-graph TD
-    A[Database Fundamentals] --> B[ER Modeling]
-    B --> C[Normalization]
-    C --> D[SQL Mastery]
-    D --> E[Advanced Concepts]
-    E --> F[Real Projects]
-```
-
 ---
 
 ## 📚 Curriculum Coverage
 
-<details>
-<summary><strong>🔧 Core Concepts</strong></summary>
-
+**🔧 Core Concepts**
 - **Database Models**: Relational, NoSQL, NewSQL
 - **Entity-Relationship (ER) Modeling**: Conceptual design
 - **Relational Algebra & Calculus**: Mathematical foundations
 - **SQL & Query Processing**: Data manipulation and retrieval
 
-</details>
-
-<details>
-<summary><strong>🏛️ Design Principles</strong></summary>
-
+**🏛️ Design Principles**
 - **Database Normalization**: 1NF → 2NF → 3NF → BCNF
 - **Schema Design**: Logical and physical design
 - **Indexing Strategies**: Performance optimization
 - **Data Integrity**: Constraints and validation
 
-</details>
-
-<details>
-<summary><strong>🚀 Advanced Topics</strong></summary>
-
+**🚀 Advanced Topics**
 - **Transaction Management**: ACID properties
 - **Concurrency Control**: Multi-user environments
 - **Database Security**: Access control and encryption
 - **Backup & Recovery**: Data protection strategies
 - **Distributed Databases**: Scalability solutions
-
-</details>
 
 ---
 
@@ -108,28 +71,28 @@ graph TD
 ```
 Database-Systems-Concepts---Design/
 │
-├── 📁 concepts/
-│   ├── 🎨 er-modeling/           # Entity-Relationship diagrams
-│   ├── 📐 normalization/         # Database normalization examples
-│   ├── 📝 sql-basics/            # Fundamental SQL operations
-│   └── 🔬 advanced-topics/       # Advanced database concepts
+├── concepts/
+│   ├── er-modeling/           # Entity-Relationship diagrams
+│   ├── normalization/         # Database normalization examples
+│   ├── sql-basics/            # Fundamental SQL operations
+│   └── advanced-topics/       # Advanced database concepts
 │
-├── 📁 examples/
-│   ├── 🏗️ schema-designs/        # Sample database schemas
-│   ├── 🗃️ sample-databases/      # Ready-to-use databases
-│   └── 🔍 query-examples/        # SQL query collections
+├── examples/
+│   ├── schema-designs/        # Sample database schemas
+│   ├── sample-databases/      # Ready-to-use databases
+│   └── query-examples/        # SQL query collections
 │
-├── 📁 projects/
-│   ├── 📚 library-management/    # Complete library system
-│   ├── 📦 inventory-system/      # Warehouse management
-│   └── 🎓 student-portal/        # Academic management system
+├── projects/
+│   ├── library-management/    # Complete library system
+│   ├── inventory-system/      # Warehouse management
+│   └── student-portal/        # Academic management system
 │
-├── 📁 resources/
-│   ├── 📋 cheat-sheets/          # Quick reference guides
-│   ├── 📖 reference-materials/   # Additional learning resources
-│   └── 💪 practice-exercises/    # Hands-on practice problems
+├── resources/
+│   ├── cheat-sheets/          # Quick reference guides
+│   ├── reference-materials/   # Additional learning resources
+│   └── practice-exercises/    # Hands-on practice problems
 │
-└── 📄 README.md
+└── README.md
 ```
 
 ---
@@ -138,32 +101,15 @@ Database-Systems-Concepts---Design/
 
 ### 🔧 Prerequisites
 
-<table>
-<tr>
-<td><strong>Essential</strong></td>
-<td><strong>Recommended</strong></td>
-</tr>
-<tr>
-<td>
+**Essential Requirements:**
+- Python 3.7+
+- Basic programming knowledge
+- Text editor/IDE
 
-```bash
-• Python 3.7+
-• Basic programming knowledge
-• Text editor/IDE
-```
-
-</td>
-<td>
-
-```bash
-• MySQL 8.0+ / PostgreSQL 12+
-• Flask framework
-• Git version control
-```
-
-</td>
-</tr>
-</table>
+**Recommended:**
+- MySQL 8.0+ / PostgreSQL 12+
+- Flask framework
+- Git version control
 
 ### 🚀 Installation
 
@@ -194,8 +140,7 @@ pip install -r requirements.txt
 # 3. Launch application
 flask run
 
-# 4. Access web interface
-# 🌐 http://localhost:5000
+# 4. Access web interface at http://localhost:5000
 ```
 
 ---
@@ -270,17 +215,13 @@ def dashboard():
 
 ---
 
-## 📊 Project Showcase
+## 📊 Featured Projects
 
-<div align="center">
-
-| 🏆 **Featured Projects** | 📈 **Complexity** | 🛠️ **Technologies** |
-|---------------------------|-------------------|---------------------|
-| Library Management System | ⭐⭐⭐ | MySQL, Flask, HTML/CSS |
-| Inventory Control System | ⭐⭐⭐⭐ | PostgreSQL, Python, REST API |
-| Student Portal | ⭐⭐⭐⭐⭐ | SQLite, Flask, Bootstrap |
-
-</div>
+| **Project Name** | **Complexity** | **Technologies** | **Description** |
+|------------------|----------------|------------------|-----------------|
+| Library Management System | ⭐⭐⭐ | MySQL, Flask, HTML/CSS | Complete book lending system |
+| Inventory Control System | ⭐⭐⭐⭐ | PostgreSQL, Python, REST API | Warehouse management solution |
+| Student Portal | ⭐⭐⭐⭐⭐ | SQLite, Flask, Bootstrap | Academic management platform |
 
 ---
 
@@ -288,11 +229,7 @@ def dashboard():
 
 We welcome contributions! Here's how you can help:
 
-<div align="center">
-
-### 🔄 **Contribution Workflow**
-
-</div>
+### **Contribution Workflow**
 
 ```bash
 # 1. Fork the repository
@@ -310,8 +247,7 @@ git push origin feature/amazing-feature
 # 5. Open Pull Request
 ```
 
-### 📋 **Contribution Guidelines**
-
+### **Guidelines**
 - ✅ Follow consistent code formatting
 - ✅ Include comprehensive documentation  
 - ✅ Add practical examples
@@ -322,44 +258,31 @@ git push origin feature/amazing-feature
 
 ## 📚 Learning Resources
 
-<table>
-<tr>
-<td width="33%">
+### **📖 Recommended Books**
+- Database System Concepts by Silberschatz, Korth, and Sudarshan
+- Fundamentals of Database Systems by Elmasri and Navathe
+- Database Design for Mere Mortals by Michael J. Hernandez
 
-### 📖 **Books**
-- Database System Concepts
-- Fundamentals of Database Systems  
-- Database Design for Mere Mortals
-
-</td>
-<td width="33%">
-
-### 🌐 **Online**
-- [W3Schools SQL](https://www.w3schools.com/sql/)
-- [PostgreSQL Docs](https://www.postgresql.org/docs/)
+### **🌐 Online Resources**
+- [W3Schools SQL Tutorial](https://www.w3schools.com/sql/)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
 - [MySQL Documentation](https://dev.mysql.com/doc/)
+- [Flask Documentation](https://flask.palletsprojects.com/)
 
-</td>
-<td width="34%">
-
-### 💪 **Practice**
+### **💪 Practice Platforms**
 - [SQLBolt](https://sqlbolt.com/)
-- [HackerRank SQL](https://www.hackerrank.com/domains/sql)
-- [LeetCode Database](https://leetcode.com/problemset/database/)
-
-</td>
-</tr>
-</table>
+- [HackerRank SQL Challenges](https://www.hackerrank.com/domains/sql)
+- [LeetCode Database Problems](https://leetcode.com/problemset/database/)
 
 ---
 
 ## 📄 License
 
-<div align="center">
-
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ---
+
+<div align="center">
 
 **Created with ❤️ by [Kraryal](https://github.com/kraryal)**
 
